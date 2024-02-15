@@ -37,7 +37,8 @@ jobs:
       - name: Downloaad new artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ github.event.inputs.artifact_name }}
+          pattern: *
+          # name: ${{ github.event.inputs.artifact_name }}
           github-token: ${{ secrets.PAT }}
           run-id: ${{ github.event.inputs.run_id }}
           repository: ${{ github.event.inputs.repository }}
