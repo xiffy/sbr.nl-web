@@ -34,3 +34,5 @@ Ga naar de taxonomy repository en kies settings rechtsboven. Kies in het linker 
 PAT, plak het token in de waarde en sla op. 
 
 Deze repo moet minimaal leesrechten hebben op elke repo die een taxonomyPackage aanbiedt
+
+c'mon
