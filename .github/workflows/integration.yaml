@@ -1,8 +1,7 @@
 name: Taxonomy build
 
 on:
-  repository_dispatch:
-    types: [workflow_dispatch, trigger-workflow]
+  workflow_dispatch:
     inputs:
       branch:
         description: branch name to deploy (from _this_ repo)
