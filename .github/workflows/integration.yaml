@@ -1,4 +1,5 @@
 name: Taxonomy build
+
 on:
   repository_dispatch:
     types: [trigger-workflow]
