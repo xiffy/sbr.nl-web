@@ -41,7 +41,7 @@ jobs:
           github-token: ${{ secrets.PAT }}
           run-id: ${{ github.event.inputs.run_id }}
           repository: ${{ github.event.repository }}
-          path: public/${{ github.event.inputs.branch }}
+          path: public
       - run: |
           ls -l public
 
