@@ -32,3 +32,5 @@ Generate en copy token.
 
 Ga naar de taxonomy repository en kies settings rechtsboven. Kies in het linker menu "Secrets & Variables" vervolgens "Actions". Maak een Repository secret aan 
 PAT, plak het token in de waarde en sla op. 
+
+Deze repo moet minimaal leesrechten hebben op elke repo die een taxonomyPackage aanbiedt

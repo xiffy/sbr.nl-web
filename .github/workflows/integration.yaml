@@ -10,12 +10,15 @@ on:
       repository:
         description: repository name which triggered this event (taxonomy)
         required: true
-      artifact_url:
-        description: URL where the new (zipped) taxonomypackage lives
+      artifact_name:
+        description: Name of the artifact in this repo  (zipped taxonomypackage)
         required: true
       message:
         required: false
         default: "Remotely triggerd"
+      run-id:
+        required: true
+        description: To download the artifact we need a run_id
 
 jobs:
   build:
@@ -27,7 +30,18 @@ jobs:
           echo ${{ github.actor }} Started an integration run.
           echo They pushed to ${{ github.event.inputs.repository }}
       - run: |
-          echo ${{ github.event.inputs.artifact_url }}
+          echo ${{ github.event.inputs.artifact_name }}
           echo ${{ github.event.inputs.branch }}
-          echo the message is: ${{ github.event.inputs.message }}  
+          echo the message is: ${{ github.event.inputs.message }}
+          echo run-id: ${{ github.event.inputs.run-id }}
+      - name: Downloaad new artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ github.event.inputs.artifact_name }}
+          github-token: ${{ secrets.PAT }}
+          run-id: ${{ github.event.inputs.run-id }}
+          repository: ${{ github.event.repository }}
+          path: public/${{ github.event.inputs.branch }}
+      - run: |
+          ls -l public
 
