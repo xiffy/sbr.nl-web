@@ -14,6 +14,9 @@ on:
       artifact_url:
         description: URL where the new (zipped) taxonomypackage lives
         required: true
+      message:
+        required: false
+        default: "Remotely triggerd"
 
 jobs:
   build:
