@@ -2,6 +2,17 @@ name: Taxonomy build
 on:
   repository_dispatch:
     types: [trigger-workflow]
+  inputs:
+    branch:
+      description: branch name to deploy (from _this_ repo)
+      default: main
+      required: true
+    repository:
+      description: repository name which triggered this event (taxonomy)
+      required: true
+    artifact_url:
+      description: URL where the new (zipped) taxonomypackage lives
+      required: true
 
 jobs:
   build:
