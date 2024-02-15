@@ -40,7 +40,7 @@ jobs:
           path: _tax
       - run: |
           ls -l _tax
-      - run: }
+      - run: |
           mkdir -p public/taxonomies/${{ github.event.inputs.branch }}
       - name: Create package
         uses: montudor/action-zip@v1
