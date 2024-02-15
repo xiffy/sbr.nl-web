@@ -39,7 +39,7 @@ jobs:
         with:
           # name: ${{ github.event.inputs.artifact_name }}
           github-token: ${{ secrets.PAT }}
-          run-id: ${{ github.event.inputs.run_id }}
+          # run-id: ${{ github.event.inputs.run_id }}
           repository: ${{ github.event.inputs.repository }}
           path: tmp
       - run: |
