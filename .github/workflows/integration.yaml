@@ -25,8 +25,9 @@ jobs:
         uses: actions/checkout@v4
       - run: |
           echo ${{ env.github_actor }} Started an integration run.
-          echo They pushed to ${{ github.event.client_payload.repository }}
+          echo They pushed to ${{ github.event.inputs.repository }}
       - run: |
-          echo ${{ github.event.client_payload.artifact_url }}
-          echo ${{ github.event.client_payload.repository }}
+          echo ${{ github.event.inputs.artifact_url }}
+          echo ${{ github.event.inputs.branch }}
+          echo the message is: ${{ github.event.inputs.message }}  
 
