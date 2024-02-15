@@ -37,8 +37,8 @@ jobs:
       - name: Downloaad new artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ github.event.inputs.artifact_name }}
-          github-token: ${{ secrets.PATsy }}
+          # name: ${{ github.event.inputs.artifact_name }}
+          github-token: ${{ secrets.PAT }}
           run-id: ${{ github.event.inputs.run_id }}
           repository: ${{ github.event.inputs.repository }}
           path: tmp
@@ -49,4 +49,3 @@ jobs:
           args: unzip /tmp/${{ github.event.inputs.artifact_name }}.zip -d public/${{ github.event.inputs.branch }}
       - run: |
           ls -l public
-
