@@ -16,7 +16,7 @@ on:
       message:
         required: false
         default: "Remotely triggerd"
-      run-id:
+      run_id:
         required: true
         description: To download the artifact we need a run_id
 
@@ -39,7 +39,7 @@ jobs:
         with:
           name: ${{ github.event.inputs.artifact_name }}
           github-token: ${{ secrets.PAT }}
-          run-id: ${{ github.event.inputs.run-id }}
+          run-id: ${{ github.event.inputs.run_id }}
           repository: ${{ github.event.repository }}
           path: public/${{ github.event.inputs.branch }}
       - run: |
