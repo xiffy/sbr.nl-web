@@ -2,7 +2,7 @@ name: Taxonomy build
 
 on:
   repository_dispatch:
-    types: [trigger-workflow]
+    types: [workflow_dispatch, trigger-workflow]
     inputs:
       branch:
         description: branch name to deploy (from _this_ repo)
