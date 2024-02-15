@@ -38,7 +38,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ github.event.inputs.artifact_name }}
-          github-token: ${{ secrets.PAT }}
+          github-token: ${{ secrets.PATsy }}
           run-id: ${{ github.event.inputs.run_id }}
           repository: ${{ github.event.inputs.repository }}
           path: tmp
