@@ -10,6 +10,9 @@ jobs:
       - name: Checkout self
         uses: actions/checkout@v4
       - run: |
+          echo ${{ GITHUB_ACTOR }} Started an integration run.
+          echo They pushed to ${{ github.event.client_payload.repository }}
+      - run: |
           echo ${{ github.event.client_payload.artifact_url }}
           echo ${{ github.event.client_payload.repository }}
 
