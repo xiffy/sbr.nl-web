@@ -34,6 +34,15 @@ jobs:
           echo ${{ github.event.inputs.branch }}
           echo the message is: ${{ github.event.inputs.message }}
           echo run-id: ${{ github.event.inputs.run_id }}
+      - run: |
+          echo `pwd`
+      - name: Download taxonomy repository
+        uses: actions/checkout@v4
+        repository: ${{ github.event.inputs.repository }}
+        path: _tax
+      - run: |
+          ls -l _tax
+
       - name: Downloaad new artifact
         uses: actions/download-artifact@v4
         with:
