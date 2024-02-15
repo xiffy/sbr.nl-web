@@ -33,7 +33,7 @@ jobs:
           echo ${{ github.event.inputs.artifact_name }}
           echo ${{ github.event.inputs.branch }}
           echo the message is: ${{ github.event.inputs.message }}
-          echo run-id: ${{ github.event.inputs.run-id }}
+          echo run-id: ${{ github.event.inputs.run_id }}
       - name: Downloaad new artifact
         uses: actions/download-artifact@v4
         with:
