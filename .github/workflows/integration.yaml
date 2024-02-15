@@ -1,0 +1,14 @@
+name: Taxonomy build
+on:
+  repository_dispatch:
+    types: [trigger-workflow]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout self
+        uses: actions/checkout@v4
+      - run: |
+          echo ${{ github.event.client_payload.artifact_url }}
+
