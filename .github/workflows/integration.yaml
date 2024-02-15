@@ -48,4 +48,10 @@ jobs:
           args: zip -r public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }}  _tax/${{ github.event.inputs.taxonomy_name }}
 
       - run: |
-          ls -l public
+          ls -l public/taxonomies/main
+      - name: Update git
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: public
+          author_name: ${{ github.actor }}
+          message: Updated {{ $github.event.inputs.taxonomy_name }}
