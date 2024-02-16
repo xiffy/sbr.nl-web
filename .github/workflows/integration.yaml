@@ -40,6 +40,7 @@ jobs:
       - name: Install Arelle
         run: |
           pip install arelle
+          pip show arelle
 
       - name: Download taxonomy repository
         uses: actions/checkout@v4
