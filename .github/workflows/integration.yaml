@@ -26,6 +26,7 @@ jobs:
     steps:
       - name: Checkout self
         uses: actions/checkout@v4
+
       - run: |
           echo ${{ github.actor }} Started an integration run.
           echo They pushed to ${{ github.event.inputs.repository }}
@@ -36,25 +37,31 @@ jobs:
           echo run-id: ${{ github.event.inputs.run_id }}
       - run: |
           echo `pwd`
+
       - name: Download taxonomy repository
         uses: actions/checkout@v4
         with:
           repository: ${{ github.event.inputs.repository }}
           path: _tax
+
       - run: |
           ls -l _tax
       - run: |
           mkdir -p public/taxonomies/${{ github.event.inputs.branch }}
+
       - name: Create package
         uses: montudor/action-zip@v1
         with: # recursive, archive name and path without extension, what to archive
           args: zip -r public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }}  _tax/${{ github.event.inputs.taxonomy_name }}
-      - id: eplist
-        run: |
-          EP_LIST=`python _tax/scripts/find-entrypoints.py ${{ github.event.inputs.taxonomy_name }}` 
-          echo ep_list=$EP_LIST >> $GITHUB_ENV
+
       - run: |
           ls -l public/taxonomies/main
+
+      - id: eplist
+        run: |
+          EP_LIST=`python scripts/find-entrypoints.py public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }}` 
+          echo ep_list=$EP_LIST >> $GITHUB_ENV
+
       - run: |
           echo ${{ env.ep_list }}
 
@@ -62,7 +69,6 @@ jobs:
         run: |
           pip install arelle
           
-
       - name: Update git
         uses: EndBug/add-and-commit@v9
         with:
