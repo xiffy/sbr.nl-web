@@ -55,7 +55,11 @@ jobs:
       - name: Create package
         uses: montudor/action-zip@v1
         with: # recursive, archive name and path without extension, what to archive
-          args: zip -r public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }}  _tax/${{ github.event.inputs.taxonomy_name }}
+          args: zip -r public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }} ${{ github.event.inputs.taxonomy_name }}
+          working-directory: _tax
+
+      - run: ls -l public/taxonomies/main
+      - run: mkdir _what; cd _what; unzip public/taxonomies/main/rj*zip; lc -l ; cd ..
 
       - id: eplist
         run: |
