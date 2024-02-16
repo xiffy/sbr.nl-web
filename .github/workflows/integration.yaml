@@ -8,7 +8,7 @@ on:
         default: main
         required: true
       repository:
-        description: repository name which triggered this event (taxonomy default 'jenv-tax')
+        description: repository name which triggered this event (taxonomy default 'xiffy/jenv-tax')
         required: true
         default: jenv-tax
       taxonomy_name:
