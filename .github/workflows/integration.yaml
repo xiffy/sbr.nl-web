@@ -69,7 +69,7 @@ jobs:
 
       - id: taxtest
         run: |
-          /home/runner/.local/lib/python3.10/site-packages/arelleCmdLine --packages "${{ env.package_list }}"  --validate --file "${{ env.ep_list }}"
+          arelleCmdLine --packages "${{ env.package_list }}"  --validate --file "${{ env.ep_list }}"
 
       - name: Update git
         uses: EndBug/add-and-commit@v9
