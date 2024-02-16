@@ -40,7 +40,9 @@ jobs:
       - name: Install Arelle
         run: |
           pip install arelle
+      - run: |
           pip show arelle
+          ls -l /home/runner/.local/lib/python3.10/site-packages/arelle          
 
       - name: Download taxonomy repository
         uses: actions/checkout@v4
