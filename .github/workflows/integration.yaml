@@ -39,10 +39,9 @@ jobs:
           echo `pwd`
       - name: Install Arelle
         run: |
-          pip install arelle
+          pip install arelle-release
       - run: |
-          pip show arelle
-          ls -l /home/runner/.local/lib/python3.10/site-packages/arelle          
+          pip show arelle-release
 
       - name: Download taxonomy repository
         uses: actions/checkout@v4
