@@ -61,6 +61,9 @@ jobs:
         run: |
           EP_LIST=`python scripts/find_entrypoints.py public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }}` 
           echo ep_list=$EP_LIST >> $GITHUB_ENV
+#      - id: packagelist
+#        run: |
+#          PACKAGE_LIST=
 
       - run: |
           echo ${{ env.ep_list }}
