@@ -37,6 +37,9 @@ jobs:
           echo run-id: ${{ github.event.inputs.run_id }}
       - run: |
           echo `pwd`
+      - name: Install Arelle
+        run: |
+          pip install arelle
 
       - name: Download taxonomy repository
         uses: actions/checkout@v4
@@ -62,10 +65,6 @@ jobs:
           PACKAGE_LIST=`python scripts/find_packages.py public/taxonomies/${{ github.event.inputs.branch }}`
           echo package_list=$PACKAGE_LIST >> $GITHUB_ENV
 
-      - name: Install Arelle
-        run: |
-          pip install arelle
-          
       - id: taxtest
         run: |
           arelleCmdLine --packages "${{ env.package_list }}"  --validate --file "${{ env.ep_list }}"
