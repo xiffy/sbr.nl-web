@@ -10,7 +10,7 @@ on:
       repository:
         description: repository name which triggered this event (taxonomy default 'xiffy/jenv-tax')
         required: true
-        default: jenv-tax
+        default: xiffy/jenv-tax
       taxonomy_name:
         description: Name of the taxonomy package
         required: true
