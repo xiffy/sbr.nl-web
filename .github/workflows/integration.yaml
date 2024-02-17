@@ -53,10 +53,10 @@ jobs:
           mkdir -p public/taxonomies/${{ github.event.inputs.branch }}
 
       - name: Create package
-        run: cd _tax && zip -r ../public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }} ${{ github.event.inputs.taxonomy_name }}
+        run: cd _tax && pwd && zip -r ../public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }} ${{ github.event.inputs.taxonomy_name }}
 
       - run: ls -l public/taxonomies/main
-      - run: mkdir _what && cd _what && unzip ../public/taxonomies/main/rj* && lc -l
+      - run: mkdir _what && cd _what && unzip ../public/taxonomies/main/rj* && ls -l
 
       - id: eplist
         run: |
