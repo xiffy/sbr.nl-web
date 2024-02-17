@@ -52,11 +52,12 @@ jobs:
       - run: |
           mkdir -p public/taxonomies/${{ github.event.inputs.branch }}
 
-      - name: Create package
+      - name: Install zip
         uses: montudor/action-zip@v1
-        with: # recursive, archive name and path without extension, what to archive
-          args: zip -r public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }} ${{ github.event.inputs.taxonomy_name }}
-          working-directory: _tax
+
+      - name: Create package
+        run: zip -r public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }} ${{ github.event.inputs.taxonomy_name }}
+        working-directory: _tax
 
       - run: ls -l public/taxonomies/main
       - run: mkdir _what; cd _what; unzip public/taxonomies/main/rj*zip; lc -l ; cd ..
