@@ -41,7 +41,7 @@ jobs:
         run: |
           pip install arelle-release
       - run: |
-          apt install zip
+          sudo apt install zip
 
       - name: Download taxonomy repository
         uses: actions/checkout@v4
@@ -51,9 +51,6 @@ jobs:
 
       - run: |
           mkdir -p public/taxonomies/${{ github.event.inputs.branch }}
-
-      - name: Install zip
-        uses: montudor/action-zip@v1
 
       - name: Create package
         run: cd _tax && zip -r ../public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }} ${{ github.event.inputs.taxonomy_name }}
