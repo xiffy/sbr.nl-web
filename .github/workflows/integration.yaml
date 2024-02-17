@@ -56,7 +56,7 @@ jobs:
         uses: montudor/action-zip@v1
 
       - name: Create package
-        run: cd _tax; zip -r public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }} ${{ github.event.inputs.taxonomy_name }}; cd ..
+        run: cd _tax; zip -r ../public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }} ${{ github.event.inputs.taxonomy_name }}; cd ..
 
       - run: ls -l public/taxonomies/main
       - run: mkdir _what; cd _what; unzip public/taxonomies/main/rj*zip; lc -l ; cd ..
