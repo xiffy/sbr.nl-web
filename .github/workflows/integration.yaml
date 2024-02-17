@@ -41,7 +41,7 @@ jobs:
         run: |
           pip install arelle-release
       - run: |
-          pip show arelle-release
+          apt install zip
 
       - name: Download taxonomy repository
         uses: actions/checkout@v4
