@@ -2,8 +2,8 @@
 
 In deze repository testen en bouwen we de sbr-nl taxonomy-website.
 Diverse taxonomieen worden als aparte repo ontwikkeld, en elk van deze repo's draagt bij aan de website.
-Bij een ping van een van de taxonomieen worden de tests gestart, en bi succes wordt de site gebouwd.
-Die kan op bijv. github-pages gehost worden
+Bij een ping van een van de taxonomieen worden de tests gestart, en bij succes wordt de site gebouwd.
+Die kan op bijv. github-pages gehost worden (poc, deze repo produceert een 'website' die benaderbaar is: https://xiffy.github.io/sbr.nl-web/taxonomies/main/rj_taxonomy_2024.zip, de hele website is een artifact van de publish-website action)
 
 Uitganspunten voor een correcte werking;
 Er moet op elke taxonomy repository een secret worden gezet.
@@ -35,4 +35,4 @@ PAT, plak het token in de waarde en sla op.
 
 Deze repo moet minimaal leesrechten hebben op elke repo die een taxonomyPackage aanbiedt
 
-c'mon
+
