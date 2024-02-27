@@ -10,28 +10,29 @@ taxonomy_name="jenv_taxonomy_2024"
 # probably add
 domain="jenv"
 
-mkdir -p public/taxonomies/${branch} # just to be sure
-git pull # the server creates packages as well
+mkdir -p local-test/taxonomies/${branch} # just to be sure
 # remove package which we will rebuild
-rm public/taxonomies/${branch}/${taxonomy_name}.zip 2>/dev/null
+cp -rup public/taxonomies/${branch} local-test/taxonomies/
+rm local-test/taxonomies/${branch}/${taxonomy_name}.zip 2>/dev/null
 
 # create a new taxonomy package for given taxonomy
 mkdir -p tmp
 cd tmp
 git clone git@github.com:$repository
 cd ${repo_name}
-echo ../../public/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
-zip -q -r ../../public/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
+zip -q -r ../../local-test/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
 
-cd ../..
+cd ../..  # get back to where you once belonged
 
 ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/${taxonomy_name}`
-packages=`python ./scripts/find_packages.py public/taxonomies/${branch}`
+packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
 
 # clean up the mess
 rm -rf tmp
+# rm -rf local-test
 
 echo Testing entrypoint: ${ep}
 echo With packages: ${packages}
 
 arelleCmdLine --packages "${packages}"  --validate --file "${ep}"
+
