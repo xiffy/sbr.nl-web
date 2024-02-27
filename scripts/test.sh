@@ -3,10 +3,53 @@
 # Dit script doet een workflow na.
 # aanroepen vanuit de root van je project. Dus:
 # ./scripts/test.sh
-branch="main"
-repository="xiffy/jenv-tax"
-repo_name=`basename ${repository}`
-taxonomy_name="jenv_taxonomy_2024"
+source ./scripts/config.sh
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --branch*|-b*)
+      if [[ "$1" != *=* ]]; then shift; fi # Value is next arg if no `=`
+      branch="${1#*=}"
+      ;;
+    --repo*|-r*)
+      if [[ "$1" != *=* ]]; then shift; fi
+      repo_name="${1#*=}"
+      ;;
+    --tax*|-t*)
+      if [[ "$1" != *=* ]]; then shift; fi
+      taxonomy_name="${1#*=}"
+      ;;
+    --help*|-h*)
+      echo ""
+      echo Usage:
+      echo "scripts/test.sh [arguments]"
+      echo ""
+      echo arguments:
+      echo "-b | --branch  naam van de branch waarin we moeten werken"
+      echo "               default: main"
+      echo "-r | --repo    naam van de repository (taxonomie) die getest moet worden"
+      echo "               default: jenv"
+      echo "-t | --taxo    naam van het taxonomy package (minus .zip)"
+      echo "               default: jenv_taxonomy_2024"
+      echo "je mag zowel spaties als = gebruiken als scheidingsteken"
+      echo "geen argument mag spaties bevatten"
+      echo ""
+      echo "bijv: ./scripts/test.sh --repo rj --taxo rj_taxonomy_2024 --branch develop"
+      exit 0
+      ;;
+    *)
+      >&2 printf "Error: Invalid argument\n"
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+branch="${branch:-main}"
+repo_name="${repo_name:-jenv}"
+taxonomy_name="${taxonomy_name:-jenv_taxonomy_2024}"
+
+repository="${local_taxonomy_dir}/${repo_name}"
 # probably add
 domain="jenv"
 
@@ -18,7 +61,7 @@ rm local-test/taxonomies/${branch}/${taxonomy_name}.zip 2>/dev/null
 # create a new taxonomy package for given taxonomy
 mkdir -p tmp
 cd tmp
-git clone git@github.com:$repository
+git clone $repository
 cd ${repo_name}
 zip -q -r ../../local-test/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
 
@@ -29,7 +72,7 @@ packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
 
 # clean up the mess
 rm -rf tmp
-# rm -rf local-test
+rm -rf local-test
 
 echo Testing entrypoint: ${ep}
 echo With packages: ${packages}

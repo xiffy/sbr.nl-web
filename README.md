@@ -5,6 +5,8 @@ Diverse taxonomieen worden als aparte repo ontwikkeld, en elk van deze repo's dr
 Bij een ping van een van de taxonomieen worden de tests gestart, en bij succes wordt de site gebouwd.
 Die kan op bijv. github-pages gehost worden (poc, deze repo produceert een 'website' die benaderbaar is: https://xiffy.github.io/sbr.nl-web/taxonomies/main/rj_taxonomy_2024.zip, de hele website is een artifact van de publish-website action)
 
+
+
 Uitganspunten voor een correcte werking;
 Er moet op elke taxonomy repository een secret worden gezet.
 Naam: PAT
@@ -36,3 +38,7 @@ PAT, plak het token in de waarde en sla op.
 Deze repo moet minimaal leesrechten hebben op elke repo die een taxonomyPackage aanbiedt
 
 
+## lokaal testen
+Je kan lokaal nadoen wat we op de server doen (minus publiceren van de website). Daarvoor bestaat het script `scripts/test.sh`. Je moet dit script uitvoeren vanuit de root van het project. Het is noodzakelijk dat je een configuratiebestand aanmaakt in de scripts directory: `scripts/config.sh` met als inhoud `local_taxonomy_dir="${HOME}/develop/taxoos/"` als je je taxonomieen ontwikkeld in /home/joosterlee/develop/taxoos/jenv, /home/joosterlee/develop/taxoos/rj etc.
+
+Aanroep bijv 'jenv' 
