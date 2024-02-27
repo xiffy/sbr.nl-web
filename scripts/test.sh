@@ -10,29 +10,28 @@ taxonomy_name="jenv_taxonomy_2024"
 # probably add
 domain="jenv"
 
-# remove obsolete package
-mkdir -p public/taxonomies/${branch}
+mkdir -p public/taxonomies/${branch} # just to be sure
+git pull # the server creates packages as well
+# remove package which we will rebuild
 rm public/taxonomies/${branch}/${taxonomy_name}.zip 2>/dev/null
 
-# create a fresh one
+# create a new taxonomy package for given taxonomy
 mkdir -p tmp
 cd tmp
 git clone git@github.com:$repository
 cd ${repo_name}
-echo `pwd`
 echo ../../public/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
-zip -r ../../public/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
+zip -q -r ../../public/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
 
 cd ../..
-ls -latr public/taxonomies/${branch}
 
 ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/${taxonomy_name}`
 packages=`python ./scripts/find_packages.py public/taxonomies/${branch}`
 
+# clean up the mess
 rm -rf tmp
 
-echo ${ep}
-echo ${packages}
-
+echo Testing entrypoint: ${ep}
+echo With packages: ${packages}
 
 arelleCmdLine --packages "${packages}"  --validate --file "${ep}"
