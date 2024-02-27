@@ -67,7 +67,18 @@ jobs:
 
       - id: taxtest
         run: |
-          arelleCmdLine --packages "${{ env.package_list }}"  --validate --file "${{ env.ep_list }}"
+          arelleCmdLine --packages "${{ env.package_list }}"  --validate --file "${{ env.ep_list }} --logFile=arelle.log --logLevel=warning"
+
+      - id: check_arelle
+        name: Check for errors while testing the taxonomy
+        run: |
+          scripts/check_arelle.sh arelle.log
+
+      - id: fail_arelle
+        name: Exit if Arelle spits warnings or errors
+        if: failure()
+        run: |
+          echo "I'm sorry Dave, I'm afraid I can't do that."
 
       # This should be the last action, after committing the package, the website will be published
       - name: Update git
