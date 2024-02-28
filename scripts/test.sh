@@ -32,6 +32,9 @@ while [ $# -gt 0 ]; do
       echo "-t | --taxo    naam van het taxonomy package (minus .zip)"
       echo "               default: jenv_taxonomy_2024"
       echo "je mag zowel spaties als = gebruiken als scheidingsteken"
+      echo "dus ./scripts/test.sh --repo=rj --taxo=rj_taxonomy_2024 --branch=develop"
+      echo "is gelijk aan:"
+      echo "dus ./scripts/test.sh --r rj --t rj_taxonomy_2024 --b develop"
       echo "geen argument mag spaties bevatten"
       echo ""
       echo "bijv: ./scripts/test.sh --repo rj --taxo rj_taxonomy_2024 --branch develop"
@@ -53,6 +56,8 @@ repository="${local_taxonomy_dir}/${repo_name}"
 # probably add
 domain="jenv"
 
+
+mkdir -p public/taxonomies/${branch} # just to be sure
 mkdir -p local-test/taxonomies/${branch} # just to be sure
 # remove package which we will rebuild
 cp -rup public/taxonomies/${branch} local-test/taxonomies/
@@ -61,18 +66,25 @@ rm local-test/taxonomies/${branch}/${taxonomy_name}.zip 2>/dev/null
 # create a new taxonomy package for given taxonomy
 mkdir -p tmp
 cd tmp
-git clone $repository
+git clone --branch $branch $repository
 cd ${repo_name}
 zip -q -r ../../local-test/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
-
 cd ../..  # get back to where you once belonged
 
+# Als wij de eerste zijn die dit package maken, zet het in git.
+if test ! -f "public/taxonomies/${branch}/${taxonomy_name}.zip"; then
+  cp local-test/taxonomies/${branch}/${taxonomy_name}.zip public/taxonomies/${branch}/
+  git add public/taxonomies/${branch}/
+  git commit -m "New package in branch ${branch}"
+fi
+
+# gather entrypoints from the requested taxonomy, andsee which other taxo's can be loaded
 ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/${taxonomy_name}`
 packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
 
 # clean up the mess
 rm -rf tmp
-rm -rf local-test
+#rm -rf local-test
 
 echo Testing entrypoint: ${ep}
 echo With packages: ${packages}
