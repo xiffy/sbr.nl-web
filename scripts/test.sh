@@ -2,7 +2,12 @@
 
 # Dit script doet een workflow na.
 # aanroepen vanuit de root van je project. Dus:
-# ./scripts/test.sh
+# ./scripts/test.sh <argumenten>
+
+if test ! -f ./scripts/config.sh; then
+  echo "Maak een configuratie aan (zie scripts/config.sh.sample)"
+  exit
+fi
 source ./scripts/config.sh
 
 while [ $# -gt 0 ]; do
