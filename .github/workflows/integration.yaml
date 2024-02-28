@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout self
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - run: |
           echo ${{ github.actor }} Started an integration run.
@@ -47,6 +49,7 @@ jobs:
         with:
           repository: ${{ github.event.inputs.repository }}
           path: _tax
+          ref: ${{ github.event.inputs.branch }}
 
       - run: |
           mkdir -p public/taxonomies/${{ github.event.inputs.branch }}
