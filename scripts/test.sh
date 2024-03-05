@@ -63,10 +63,13 @@ domain="jenv"
 
 
 mkdir -p public/taxonomies/${branch} # just to be sure
+echo "--"
 mkdir -p local-test/taxonomies/${branch} # just to be sure
+echo "----"
 # remove package which we will rebuild
 cp -rup public/taxonomies/${branch} local-test/taxonomies/
-rm local-test/taxonomies/${branch}/taxonomies/${taxonomy_name}.zip 2>/dev/null
+rm local-test/taxonomies/${branch}/${taxonomy_name}.zip # 2>/dev/null
+ls -l local-test/taxonomies/${branch}/
 
 # create a new taxonomy package for given taxonomy
 mkdir -p tmp
@@ -89,10 +92,10 @@ packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
 
 # clean up the mess
 rm -rf tmp
-rm -rf local-test
 
 echo Testing entrypoint: ${ep}
 echo With packages: ${packages}
 
 arelleCmdLine --packages "${packages}"  --validate --file "${ep}"
 
+rm -rf local-test
