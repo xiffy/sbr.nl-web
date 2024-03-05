@@ -66,15 +66,15 @@ mkdir -p public/taxonomies/${branch} # just to be sure
 mkdir -p local-test/taxonomies/${branch} # just to be sure
 # remove package which we will rebuild
 cp -rup public/taxonomies/${branch} local-test/taxonomies/
-rm local-test/taxonomies/${branch}/${taxonomy_name}.zip 2>/dev/null
+rm local-test/taxonomies/${branch}/taxonomies/${taxonomy_name}.zip 2>/dev/null
 
 # create a new taxonomy package for given taxonomy
 mkdir -p tmp
 cd tmp
 git clone --branch $branch $repository
-cd ${repo_name}
-zip -q -r ../../local-test/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
-cd ../..  # get back to where you once belonged
+cd ${repo_name}/taxonomies
+zip -r ../../../local-test/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
+cd ../../..  # get back to where you once belonged
 
 # Als wij de eerste zijn die dit package maken, zet het in git.
 if test ! -f "public/taxonomies/${branch}/${taxonomy_name}.zip"; then
@@ -84,11 +84,11 @@ if test ! -f "public/taxonomies/${branch}/${taxonomy_name}.zip"; then
 fi
 
 # gather entrypoints from the requested taxonomy, andsee which other taxo's can be loaded
-ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/${taxonomy_name}`
+ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/taxonomies/${taxonomy_name}`
 packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
 
 # clean up the mess
-rm -rf tmp
+#rm -rf tmp
 #rm -rf local-test
 
 echo Testing entrypoint: ${ep}
