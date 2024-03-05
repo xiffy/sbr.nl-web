@@ -8,7 +8,7 @@ on:
         default: main
         required: true
       repository:
-        description: repository name which triggered this event (taxonomy default 'xiffy/jenv-tax')
+        description: repository name which triggered this event (taxonomy default 'xiffy/jenv-taxonomie')
         required: true
         default: xiffy/jenv-taxonomie
       taxonomy_name:
@@ -74,7 +74,6 @@ jobs:
         run: |
           INSTANCE_LIST=`python scripts/find_instances.py _tax/instances`
           echo instance_list=$INSTANCE_LIST >> $GITHUB_ENV
-          echo $INSTANCE_LIST
         continue-on-error: true
 
       - id: taxtest
@@ -103,7 +102,7 @@ jobs:
         name: Exit if Arelle spits warnings or errors
         if: failure()
         run: |
-          echo "I'm sorry Dave, I'm afraid I can't do that."
+          echo "How are you going to use the emergency exit without a your space helmet Dave?"
 
       # This should be the last action, after committing the package, the website will be published
       - name: Update git
