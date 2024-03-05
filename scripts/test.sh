@@ -89,7 +89,11 @@ if test ! -f "public/taxonomies/${branch}/${taxonomy_name}.zip"; then
   git commit -m "New taxonomy package in branch ${branch}"
 fi
 
-# gather entrypoints from the requested taxonomy, andsee which other taxo's can be loaded
+echo "=-="
+echo "gather entrypoints from the requested taxonomy"
+echo "see which other taxonomies can be loaded"
+echo "find test instances"
+
 ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/taxonomies/${taxonomy_name}`
 packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
 instances=`python ./scripts/find_instances.py tmp/${repo_name}/instances`
@@ -109,6 +113,8 @@ if test ! "${instances}" == ""; then
 else
   echo No instances to be tested. Goodbye
 fi
-# clean up the mess
+echo "=-="
+echo "Cleaning up the mess"
 rm -rf tmp
 rm -rf local-test
+echo "=-="
