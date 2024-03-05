@@ -88,8 +88,8 @@ ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/taxonomies/${taxonomy_
 packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
 
 # clean up the mess
-#rm -rf tmp
-#rm -rf local-test
+rm -rf tmp
+rm -rf local-test
 
 echo Testing entrypoint: ${ep}
 echo With packages: ${packages}
