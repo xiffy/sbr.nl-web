@@ -33,14 +33,14 @@ while [ $# -gt 0 ]; do
       echo "-b | --branch  naam van de branch waarin we moeten werken"
       echo "               default: main"
       echo "-r | --repo    naam van de repository (taxonomie) die getest moet worden"
-      echo "               default: jenv"
+      echo "               default: jenv-taxonomie"
       echo "-t | --taxo    naam van het taxonomy package (minus .zip)"
       echo "               default: jenv_taxonomy_2024"
       echo "je mag zowel spaties als = gebruiken als scheidingsteken"
       echo "dus ./scripts/test.sh --repo=rj --taxo=rj_taxonomy_2024 --branch=develop"
       echo "is gelijk aan:"
-      echo "dus ./scripts/test.sh --r rj --t rj_taxonomy_2024 --b develop"
-      echo "geen argument mag spaties bevatten"
+      echo "dus ./scripts/test.sh -r rj -t rj_taxonomy_2024 -b develop"
+      echo "geen enkel argument mag spaties bevatten"
       echo ""
       echo "bijv: ./scripts/test.sh --repo rj --taxo rj_taxonomy_2024 --branch develop"
       exit 0
@@ -54,7 +54,7 @@ while [ $# -gt 0 ]; do
 done
 
 branch="${branch:-main}"
-repo_name="${repo_name:-jenv}"
+repo_name="${repo_name:-jenv-taxonomie}"
 taxonomy_name="${taxonomy_name:-jenv_taxonomy_2024}"
 
 repository="${local_taxonomy_dir}/${repo_name}"
@@ -74,6 +74,7 @@ ls -l local-test/taxonomies/${branch}/
 # create a new taxonomy package for given taxonomy
 mkdir -p tmp
 cd tmp
+echo "Cloning ${repository} with branch: ${branch}"
 git clone --branch $branch $repository
 cd ${repo_name}/taxonomies
 zip -r ../../../local-test/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
@@ -96,6 +97,7 @@ rm -rf tmp
 echo Testing entrypoint: ${ep}
 echo With packages: ${packages}
 
-arelleCmdLine --packages "${packages}"  --validate --file "${ep}"
-
+arelleCmdLine --packages "${packages}"  --validate --file "${ep}" --logFile=arelle.log --logLevel=warning
+echo "catting:"
+cat arelle.log
 rm -rf local-test
