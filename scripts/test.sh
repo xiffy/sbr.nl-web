@@ -101,14 +101,14 @@ instances=`python ./scripts/find_instances.py tmp/${repo_name}/instances`
 echo "=-="
 echo "Testing entrypoint(s): ${ep}"
 echo With packages: ${packages}
-echo "=-="
+echo ""
 arelleCmdLine --packages "${packages}"  --validate --file "${ep}"
 
 if test ! "${instances}" == ""; then
   echo "=-="
   echo "Testing instance(s): ${instances}"
   echo With packages: ${packages}
-  echo "=-="
+  echo ""
   arelleCmdLine --packages "${packages}"  --validate --file "${instances}"
 else
   echo No instances to be tested. Goodbye
@@ -117,4 +117,4 @@ echo "=-="
 echo "Cleaning up the mess"
 rm -rf tmp
 rm -rf local-test
-echo "=-="
+echo ""
