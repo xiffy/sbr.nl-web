@@ -88,7 +88,7 @@ if test ! -f "public/taxonomies/${branch}/${taxonomy_name}.zip"; then
   git add public/taxonomies/${branch}/
   git commit -m "New taxonomy package in branch ${branch}"
 fi
-
+echo ""
 echo "=-="
 echo "gather entrypoints from the requested taxonomy"
 echo "see which other taxonomies can be loaded"
@@ -98,6 +98,7 @@ ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/taxonomies/${taxonomy_
 packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
 instances=`python ./scripts/find_instances.py tmp/${repo_name}/instances`
 
+echo ""
 echo "=-="
 echo "Testing entrypoint(s): ${ep}"
 echo With packages: ${packages}
@@ -105,6 +106,7 @@ echo ""
 arelleCmdLine --packages "${packages}"  --validate --file "${ep}"
 
 if test ! "${instances}" == ""; then
+  echo ""
   echo "=-="
   echo "Testing instance(s): ${instances}"
   echo With packages: ${packages}
@@ -113,6 +115,7 @@ if test ! "${instances}" == ""; then
 else
   echo No instances to be tested. Goodbye
 fi
+echo ""
 echo "=-="
 echo "Cleaning up the mess"
 rm -rf tmp
