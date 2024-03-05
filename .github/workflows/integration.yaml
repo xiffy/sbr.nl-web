@@ -53,7 +53,10 @@ jobs:
 
       - run: |
           mkdir -p public/taxonomies/${{ github.event.inputs.branch }}
-          rm public/taxonomies/${{ github.event.inputs.branch }}/taxonomies/${{ github.event.inputs.taxonomy_name }}.zip 2>/dev/null
+      - name: remove old package (if any)
+        continue-on-error: true
+        run: |
+            rm public/taxonomies/${{ github.event.inputs.branch }}/taxonomies/${{ github.event.inputs.taxonomy_name }}.zip 2>/dev/null
 
       - name: Create package
         run: cd _tax/taxonomies && pwd && zip -r ../../public/taxonomies/${{ github.event.inputs.branch }}/${{ github.event.inputs.taxonomy_name }} ${{ github.event.inputs.taxonomy_name }}
