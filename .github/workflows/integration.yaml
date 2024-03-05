@@ -10,7 +10,7 @@ on:
       repository:
         description: repository name which triggered this event (taxonomy default 'xiffy/jenv-tax')
         required: true
-        default: xiffy/jenv-tax
+        default: xiffy/jenv-taxonomie
       taxonomy_name:
         description: Name of the taxonomy package
         required: true
@@ -18,7 +18,7 @@ on:
       message:
         description: Message to use when we commit taxonomy packages to this repository.
         required: false
-        default: "Manually started"
+        default: "Manually started workflow."
 
 jobs:
   build:
