@@ -63,17 +63,16 @@ domain="jenv"
 
 
 mkdir -p public/taxonomies/${branch} # just to be sure
-echo "--"
 mkdir -p local-test/taxonomies/${branch} # just to be sure
 echo "----"
 # remove package which we will rebuild
 cp -rup public/taxonomies/${branch} local-test/taxonomies/
 rm local-test/taxonomies/${branch}/${taxonomy_name}.zip # 2>/dev/null
-ls -l local-test/taxonomies/${branch}/
 
 # create a new taxonomy package for given taxonomy
 mkdir -p tmp
 cd tmp
+
 echo "Cloning ${repository} with branch: ${branch}"
 git clone --branch $branch $repository
 cd ${repo_name}/taxonomies
@@ -90,14 +89,20 @@ fi
 # gather entrypoints from the requested taxonomy, andsee which other taxo's can be loaded
 ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/taxonomies/${taxonomy_name}`
 packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
+instances=`python ./scripts/find_instances.py tmp/${repo_name}/instances`
+
+echo "=-="
+echo "Testing entrypoint(s): ${ep}"
+echo With packages: ${packages}
+echo "=-="
+arelleCmdLine --packages "${packages}"  --validate --file "${ep}"
+
+echo "=-="
+echo "Testing instance(s): ${instances}"
+echo With packages: ${packages}
+echo "=-="
+arelleCmdLine --packages "${packages}"  --validate --file "${instances}"
 
 # clean up the mess
 rm -rf tmp
-
-echo Testing entrypoint: ${ep}
-echo With packages: ${packages}
-
-arelleCmdLine --packages "${packages}"  --validate --file "${ep}" --logFile=arelle.log --logLevel=warning
-echo "catting:"
-cat arelle.log
 rm -rf local-test
