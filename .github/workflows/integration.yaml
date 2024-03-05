@@ -99,7 +99,7 @@ jobs:
         run: |
           arelleCmdLine --packages "${{ env.package_list }}"  --validate --file "${{ env.instance_list }}" --logFile=arelle.log --logLevel=warning
 
-      - id: fail_arelle
+      - id: fail_arelle_instance
         name: Exit if Arelle spits warnings or errors
         if: failure()
         run: |
