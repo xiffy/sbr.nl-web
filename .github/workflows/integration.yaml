@@ -70,6 +70,12 @@ jobs:
         run: |
           PACKAGE_LIST=`python scripts/find_packages.py public/taxonomies/${{ github.event.inputs.branch }}`
           echo package_list=$PACKAGE_LIST >> $GITHUB_ENV
+      - id: instancelist
+        run: |
+          INSTANCE_LIST=`python scripts/find_instances.py _tax/instances`
+          echo instance_list=$INSTANCE_LIST >> $GITHUB_ENV
+          echo $INSTANCE_LIST
+        continue-on-error: true
 
       - id: taxtest
         run: |
@@ -79,6 +85,19 @@ jobs:
         name: Check for errors while testing the taxonomy
         run: |
           scripts/check_arelle.sh arelle.log
+
+      - id: fail_arelle
+        name: Exit if Arelle spits warnings or errors
+        if: failure()
+        run: |
+          echo "I'm sorry Dave, I'm afraid I can't do that."
+      - run: |
+          rm arelle.log
+
+      - id: instancetest
+        if: ${{ env.instance_list }} > ""
+        run: |
+          arelleCmdLine --packages "${{ env.package_list }}"  --validate --file "${{ env.instance_list }}" --logFile=arelle.log --logLevel=warning
 
       - id: fail_arelle
         name: Exit if Arelle spits warnings or errors
