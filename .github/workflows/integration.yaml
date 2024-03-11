@@ -41,6 +41,7 @@ jobs:
       - name: Install Arelle
         run: |
           pip install arelle-release
+          pip install Jinja2
       - run: |
           sudo apt install zip
 
@@ -103,6 +104,11 @@ jobs:
         if: failure()
         run: |
           echo "How are you going to use the emergency exit without a your space helmet Dave?"
+
+      - name: Create html-index
+        run: |
+          python scripts/html_index.py > public/index.html
+          git add public/index.html
 
       # This should be the last action, after committing the package, the website will be published
       - name: Update git
