@@ -1,7 +1,7 @@
 import os
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 env = Environment(
-    loader=FileSystemLoader("../templates"),
+    loader=FileSystemLoader("templates"),
     autoescape=select_autoescape(["html", "xml"]),
 )
 
@@ -26,7 +26,7 @@ class HTMLIndex:
 
 
 def main():
-    index = HTMLIndex("../public")
+    index = HTMLIndex("public")
     index.render_html()
 
 

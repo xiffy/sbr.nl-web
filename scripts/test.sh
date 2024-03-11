@@ -88,6 +88,7 @@ if test ! -f "public/taxonomies/${branch}/${taxonomy_name}.zip"; then
   git add public/taxonomies/${branch}/
   git commit -m "New taxonomy package in branch ${branch}"
 fi
+python ./scripts/html_index.py > public/index.html
 echo ""
 echo "=-="
 echo "gather entrypoints from the requested taxonomy"
