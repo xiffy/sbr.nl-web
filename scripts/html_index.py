@@ -1,9 +1,9 @@
 import os
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+
 env = Environment(
-    loader=FileSystemLoader("templates"),
-    autoescape=select_autoescape(["html", "xml"]),
-)
+    loader=FileSystemLoader("templates"), autoescape=select_autoescape(["html", "xml"])
+)  # Tell Jinja where to find stuff
 
 
 class HTMLIndex:
