@@ -112,6 +112,7 @@ jobs:
       # This should be the last action, after committing the package, the website will be published
       # We want another  workflow to run,
       # normally you can't trigger workflows from worflow (commits) with the default github.token
+      # So now github won't refresh this workflow?
       - name: Commit files
         run: |
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
