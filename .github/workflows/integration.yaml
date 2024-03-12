@@ -114,5 +114,5 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           add: public
-          default_author: ${{ github.actor }}
+          default_author: github_actor
           message: "${{ github.event.inputs.message }} [${{ github.actor }} Updated ${{ github.event.inputs.taxonomy_name }}]"
