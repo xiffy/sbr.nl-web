@@ -41,7 +41,6 @@ jobs:
       - name: Install Arelle
         run: |
           pip install arelle-release
-          pip install Jinja2
       - run: |
           sudo apt install zip
 

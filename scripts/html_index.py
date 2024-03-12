@@ -22,7 +22,7 @@ class HTMLIndex:
             root = root.replace(f"{self.directory}/", "")
             output += template.render({"root": root, "dirs": dirs, "files": files})
         result = index.replace("@@@", output)
-        print(result)  # just catch disk and write to disk
+        print(result)  # just catch this and write to disk
 
 
 def main():
