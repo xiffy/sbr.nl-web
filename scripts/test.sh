@@ -33,14 +33,14 @@ while [ $# -gt 0 ]; do
       echo "-b | --branch  naam van de branch waarin we moeten werken"
       echo "               default: main"
       echo "-r | --repo    naam van de repository (taxonomie) die getest moet worden"
-      echo "               default: jenv"
+      echo "               default: jenv-taxonomie"
       echo "-t | --taxo    naam van het taxonomy package (minus .zip)"
       echo "               default: jenv_taxonomy_2024"
       echo "je mag zowel spaties als = gebruiken als scheidingsteken"
       echo "dus ./scripts/test.sh --repo=rj --taxo=rj_taxonomy_2024 --branch=develop"
       echo "is gelijk aan:"
-      echo "dus ./scripts/test.sh --r rj --t rj_taxonomy_2024 --b develop"
-      echo "geen argument mag spaties bevatten"
+      echo "dus ./scripts/test.sh -r rj -t rj_taxonomy_2024 -b develop"
+      echo "geen enkel argument mag spaties bevatten"
       echo ""
       echo "bijv: ./scripts/test.sh --repo rj --taxo rj_taxonomy_2024 --branch develop"
       exit 0
@@ -54,7 +54,7 @@ while [ $# -gt 0 ]; do
 done
 
 branch="${branch:-main}"
-repo_name="${repo_name:-jenv}"
+repo_name="${repo_name:-jenv-taxonomie}"
 taxonomy_name="${taxonomy_name:-jenv_taxonomy_2024}"
 
 repository="${local_taxonomy_dir}/${repo_name}"
@@ -64,35 +64,61 @@ domain="jenv"
 
 mkdir -p public/taxonomies/${branch} # just to be sure
 mkdir -p local-test/taxonomies/${branch} # just to be sure
+
 # remove package which we will rebuild
 cp -rup public/taxonomies/${branch} local-test/taxonomies/
-rm local-test/taxonomies/${branch}/${taxonomy_name}.zip 2>/dev/null
+rm local-test/taxonomies/${branch}/${taxonomy_name}.zip # 2>/dev/null
 
 # create a new taxonomy package for given taxonomy
 mkdir -p tmp
 cd tmp
+
+echo "Cloning ${repository} with branch: ${branch}"
 git clone --branch $branch $repository
-cd ${repo_name}
-zip -q -r ../../local-test/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
-cd ../..  # get back to where you once belonged
+cd ${repo_name}/taxonomies
+echo "=+="
+echo "Creating taxonomy package"
+zip -r ../../../local-test/taxonomies/${branch}/${taxonomy_name} ${taxonomy_name}
+cd ../../..  # get back to where you once belonged
 
 # Als wij de eerste zijn die dit package maken, zet het in git.
 if test ! -f "public/taxonomies/${branch}/${taxonomy_name}.zip"; then
+  echo adding new taxonomy package to this repository
   cp local-test/taxonomies/${branch}/${taxonomy_name}.zip public/taxonomies/${branch}/
   git add public/taxonomies/${branch}/
-  git commit -m "New package in branch ${branch}"
+  git commit -m "New taxonomy package in branch ${branch}"
 fi
+python ./scripts/html_index.py > public/index.html
+echo ""
+echo "=-="
+echo "gather entrypoints from the requested taxonomy"
+echo "see which other taxonomies can be loaded"
+echo "find test instances"
 
-# gather entrypoints from the requested taxonomy, andsee which other taxo's can be loaded
-ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/${taxonomy_name}`
+ep=`python ./scripts/find_entrypoints.py tmp/${repo_name}/taxonomies/${taxonomy_name}`
 packages=`python ./scripts/find_packages.py local-test/taxonomies/${branch}`
+instances=`python ./scripts/find_instances.py tmp/${repo_name}/instances`
 
-# clean up the mess
-rm -rf tmp
-#rm -rf local-test
-
-echo Testing entrypoint: ${ep}
+echo ""
+echo "=-="
+echo "Testing entrypoint(s): ${ep}"
 echo With packages: ${packages}
-
+echo ""
 arelleCmdLine --packages "${packages}"  --validate --file "${ep}"
 
+if test ! "${instances}" == ""; then
+  echo ""
+  echo "=-="
+  echo "Testing instance(s): ${instances}"
+  echo With packages: ${packages}
+  echo ""
+  arelleCmdLine --packages "${packages}"  --validate --file "${instances}"
+else
+  echo No instances to be tested. Goodbye
+fi
+echo ""
+echo "=-="
+echo "Cleaning up the mess"
+rm -rf tmp
+rm -rf local-test
+echo ""

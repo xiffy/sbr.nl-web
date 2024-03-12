@@ -12,7 +12,6 @@ Er moet op elke taxonomy repository een secret worden gezet.
 Naam: PAT
 Inhoud, een fine-grained access token gegenereerd op de volgende manier:
 
-Contributers aan een of meerdere taxo's kunnen op github een Personal Access Token (PAT) aanmaken die de workflow nodig heeft voor authenticatie.
 Het token maak je als volgt aan (Web interface):
 Klik op je foto of initialen rechtsboven,
 kies settings 
