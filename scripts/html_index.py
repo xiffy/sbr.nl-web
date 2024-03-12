@@ -19,6 +19,8 @@ class HTMLIndex:
         for root, dirs, files in os.walk(self.directory):
             if root.endswith(self.directory):
                 continue
+            if len(files) == 0:
+                continue
             root = root.replace(f"{self.directory}/", "")
             output += template.render({"root": root, "dirs": dirs, "files": files})
         result = index.replace("@@@", output)
