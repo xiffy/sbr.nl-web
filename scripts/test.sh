@@ -106,6 +106,21 @@ echo With packages: ${packages}
 echo ""
 arelleCmdLine --packages "${packages}"  --validate --file "${ep}"
 
+# Create html of the presentation and dimensional linkbases
+IFS_SAVE="$IFS"   # field-seperator to |
+IFS='|'
+for ep_ in $ep; do
+    filename=`basename ${ep_}`
+    echo "=-="
+    echo "Creating html: ${filename} "
+    arelleCmdLine --packages "${packages}" --file "${ep_}" \
+                  --pre="public/taxonomies/${branch}/pre_${filename}.html" \
+                  --dim="public/taxonomies/${branch}/dim_${filename}.html" \
+                  --labelLang=nl
+done
+IFS="$IFS_SAVE"
+
+
 if test ! "${instances}" == ""; then
   echo ""
   echo "=-="
