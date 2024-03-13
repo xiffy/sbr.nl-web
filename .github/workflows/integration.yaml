@@ -118,8 +118,8 @@ jobs:
             filename=`basename ${ep}`
             echo "Creating html: ${filename} "
             arelleCmdLine --packages "${{ env.package_list }}" --file "${ep}" \
-                          --pre="public/taxonomies/${{ github.event.inputs.branch }}/pre_${{ filename }}-nl.html" \
-                          --dim="public/taxonomies/${{ github.event.inputs.branch }}/dim_${{ filename }}-nl.html" \
+                          --pre="public/taxonomies/${{ github.event.inputs.branch }}/pre_${filename}-nl.html" \
+                          --dim="public/taxonomies/${{ github.event.inputs.branch }}/dim_${filename}-nl.html" \
                           --labelLang=nl
             git add public/taxonomies/${{ github.event.inputs.branch }}/*.html
           done
