@@ -109,12 +109,12 @@ jobs:
         run: |
           IFS_SAVE="$IFS"   # field-seperator to 
           IFS='|'
-          for ep_ in $ep; do
+          for ep in ${{ env.ep_list }}; do
             filename=`basename ${ep_}`
             echo "Creating html: ${filename} "
-            arelleCmdLine --packages "${packages}" --file "${ep_}" \
-                          --pre="public/taxonomies/${branch}/pre_${filename}.html" \
-                          --dim="public/taxonomies/${branch}/dim_${filename}.html" \
+            arelleCmdLine --packages "${{ env.package_list }}" --file "${ep}" \
+                          --pre="public/taxonomies/${{ github.event.inputs.branch }}/pre_${filename}-nl.html" \
+                          --dim="public/taxonomies/${{ github.event.inputs.branch }}/dim_${filename}-nl.html" \
                           --labelLang=nl
           done
           IFS="$IFS_SAVE"
