@@ -38,6 +38,11 @@ jobs:
           echo "the message is: ${{ github.event.inputs.message }}"
           echo run-id: ${{ github.event.inputs.run_id }}
 
+      - name: configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
       - name: Install Arelle
         run: |
           pip install arelle-release
@@ -105,7 +110,7 @@ jobs:
           echo "How are you going to use the emergency exit without a your space helmet Dave?"
 
       - id: ep_as_html
-        name: Create HTML representation of the found entrypoints
+        name: Create HTML representation of the found entrypoints and add them to 'public'
         run: |
           IFS_SAVE="$IFS"   # field-seperator to 
           IFS='|'
@@ -116,8 +121,10 @@ jobs:
                           --pre="public/taxonomies/${{ github.event.inputs.branch }}/pre_${{ filename }}-nl.html" \
                           --dim="public/taxonomies/${{ github.event.inputs.branch }}/dim_${{ filename }}-nl.html" \
                           --labelLang=nl
+            git add public/taxonomies/${{ github.event.inputs.branch }}/*.html
           done
           IFS="$IFS_SAVE"
+          ls -l public/taxonomies/${{ github.event.inputs.branch }}/*html
 
       - name: Create html-index
         run: |
@@ -128,8 +135,6 @@ jobs:
       # normally you can't trigger workflows from worflow (commits) with the default github.token
       - name: Commit files
         run: |
-            git config --local user.email "github-actions[bot]@users.noreply.github.com"
-            git config --local user.name "github-actions[bot]"
             git commit -a -m "Add changes to taxonomy packages"
 
       - name: Push changes
